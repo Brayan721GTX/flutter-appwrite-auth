@@ -11,6 +11,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final nameTextController = TextEditingController();
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
 
@@ -33,6 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
       await appwrite.createUser(
         email: emailTextController.text,
         password: passwordTextController.text,
+        name: nameTextController.text,
       );
       Navigator.pop(context);
       const snackbar = SnackBar(content: Text('Account created!'));
@@ -74,6 +76,14 @@ class _RegisterPageState extends State<RegisterPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              TextField(
+                controller: nameTextController,
+                decoration: const InputDecoration(
+                  labelText: 'Name',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
               TextField(
                 controller: emailTextController,
                 decoration: const InputDecoration(

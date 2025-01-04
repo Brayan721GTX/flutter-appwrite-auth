@@ -45,6 +45,7 @@ class _MessagesPageState extends State<MessagesPage> {
       messageTextController.clear();
       loadMessages();
     } on AppwriteException catch (e) {
+      print(e);
       showAlert(title: 'Error', text: e.message.toString());
     }
   }

@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/enums.dart';
 import 'package:appwrite_app/appwrite/auth_api.dart';
 import 'package:appwrite_app/pages/messages_page.dart';
 import 'package:appwrite_app/pages/register_page.dart';
@@ -64,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
         });
   }
 
-  signInWithProvider(String provider) {
+  signInWithProvider(OAuthProvider provider) {
     try {
       context.read<AuthAPI>().signInWithProvider(provider: provider);
     } on AppwriteException catch (e) {
@@ -132,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () => signInWithProvider('google'),
+                    onPressed: () => signInWithProvider(OAuthProvider.google),
                     style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.black,
                         backgroundColor: Colors.white),
@@ -140,28 +141,20 @@ class _LoginPageState extends State<LoginPage> {
                         SvgPicture.asset('assets/google_icon.svg', width: 12),
                   ),
                   ElevatedButton(
-                    onPressed: () => signInWithProvider('apple'),
+                    onPressed: () => signInWithProvider(OAuthProvider.apple),
                     style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.black,
                         backgroundColor: Colors.white),
                     child: SvgPicture.asset('assets/apple_icon.svg', width: 12),
                   ),
                   ElevatedButton(
-                    onPressed: () => signInWithProvider('github'),
+                    onPressed: () => signInWithProvider(OAuthProvider.github),
                     style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.black,
                         backgroundColor: Colors.white),
                     child:
                         SvgPicture.asset('assets/github_icon.svg', width: 12),
                   ),
-                  ElevatedButton(
-                    onPressed: () => signInWithProvider('twitter'),
-                    style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.black,
-                        backgroundColor: Colors.white),
-                    child:
-                        SvgPicture.asset('assets/twitter_icon.svg', width: 12),
-                  )
                 ],
               ),
             ],

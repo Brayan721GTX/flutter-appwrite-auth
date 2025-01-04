@@ -1,7 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:appwrite_app/appwrite/auth_api.dart';
-import 'package:appwrite_app/constants/constants.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DatabaseAPI {
   Client client = Client();
@@ -15,8 +15,8 @@ class DatabaseAPI {
 
   init() {
     client
-        .setEndpoint(APPWRITE_URL)
-        .setProject(APPWRITE_PROJECT_ID)
+        .setEndpoint(dotenv.env['APPWRITE_URL']??'')
+        .setProject(dotenv.env['APPWRITE_PROJECT_ID'])
         .setSelfSigned();
     account = Account(client);
     databases = Databases(client);
@@ -24,15 +24,15 @@ class DatabaseAPI {
 
   Future<DocumentList> getMessages() {
     return databases.listDocuments(
-      databaseId: APPWRITE_DATABASE_ID,
-      collectionId: COLLECTION_MESSAGES,
+      databaseId: dotenv.env['APPWRITE_DATABASE_ID']?? '',
+      collectionId: dotenv.env['COLLECTION_MESSAGES']?? '',
     );
   }
 
   Future<Document> addMessage({required String message}) {
     return databases.createDocument(
-        databaseId: APPWRITE_DATABASE_ID,
-        collectionId: COLLECTION_MESSAGES,
+        databaseId: dotenv.env['APPWRITE_DATABASE_ID']?? '',
+        collectionId: dotenv.env['COLLECTION_MESSAGES']?? '',
         documentId: ID.unique(),
         data: {
           'text': message,
@@ -43,8 +43,8 @@ class DatabaseAPI {
 
   Future<dynamic> deleteMessage({required String id}) {
     return databases.deleteDocument(
-        databaseId: APPWRITE_DATABASE_ID,
-        collectionId: COLLECTION_MESSAGES,
+        databaseId: dotenv.env['APPWRITE_DATABASE_ID']?? '',
+        collectionId: dotenv.env['COLLECTION_MESSAGES']?? '',
         documentId: id);
   }
 }

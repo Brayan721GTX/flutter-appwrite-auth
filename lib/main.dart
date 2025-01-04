@@ -1,12 +1,14 @@
 import 'package:appwrite_app/pages/login_page.dart';
 import 'package:appwrite_app/pages/tabs_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
 import 'appwrite/auth_api.dart';
 
-void main() {
+Future main() async{
   // runApp(const MyApp());
+  await dotenv.load(fileName: ".env");
   runApp(ChangeNotifierProvider(
       create: ((context) => AuthAPI()), child: const MyApp()));
 }

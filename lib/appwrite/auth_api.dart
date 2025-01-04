@@ -1,7 +1,8 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/enums.dart';
 import 'package:appwrite/models.dart';
-import 'package:appwrite_app/constants/constants.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 enum AuthStatus {
   uninitialized,
@@ -33,8 +34,8 @@ class AuthAPI extends ChangeNotifier {
   // Initialize the Appwrite client
   init() {
     client
-        .setEndpoint(APPWRITE_URL)
-        .setProject(APPWRITE_PROJECT_ID)
+        .setEndpoint(dotenv.env['APPWRITE_URL']??'')
+        .setProject(dotenv.env['APPWRITE_PROJECT_ID'])
         .setSelfSigned();
     account = Account(client);
   }
@@ -69,7 +70,7 @@ class AuthAPI extends ChangeNotifier {
       {required String email, required String password}) async {
     try {
       final session =
-          await account.createEmailSession(email: email, password: password);
+          await account.createEmailPasswordSession(email: email, password: password);
       _currentUser = await account.get();
       _status = AuthStatus.authenticated;
       return session;
@@ -78,7 +79,7 @@ class AuthAPI extends ChangeNotifier {
     }
   }
 
-  signInWithProvider({required String provider}) async {
+  signInWithProvider({required OAuthProvider provider}) async {
     try {
       final session = await account.createOAuth2Session(provider: provider);
       _currentUser = await account.get();
